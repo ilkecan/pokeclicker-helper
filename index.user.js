@@ -9,7 +9,7 @@
 // @require     oak_items.js
 // @grant       none
 // @icon        https://raw.githubusercontent.com/pokeclicker/pokeclicker/develop/src/assets/images/favicon.ico
-// @version     0.1.0
+// @version     0.2.0
 // @author      ilkecan
 // @description key bindings for various things
 // ==/UserScript==
