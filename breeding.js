@@ -28,4 +28,4 @@ function add_to_hatchery(pokemons) {
     }
 }
 
-keymage('ctrl-b', function() { hatch_eggs(); breed(); }, { preventDefault: true });
+keymage('alt-b', function() { hatch_eggs(); breed(); }, { preventDefault: true });

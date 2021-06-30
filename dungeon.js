@@ -33,4 +33,4 @@ DungeonRunner.dungeonWon = () => {
     setTimeout(start_dungeon, ENTER_DUNGEON_INTERVAL, DungeonRunner.dungeon);
 }
 
-keymage('ctrl-d', function() { enter_dungeon(); }, { preventDefault: true });
+keymage('alt-d', function() { enter_dungeon(); }, { preventDefault: true });
