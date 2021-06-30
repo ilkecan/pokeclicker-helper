@@ -54,7 +54,7 @@ function start_gym_battle(gym) {
 
 const original_gym_won = GymRunner.gymWon;
 GymRunner.gymWon = (gym) => {
-    original_gym_won.apply(GymRunner, [gym]);
+    original_gym_won.call(GymRunner, gym);
     setTimeout(start_gym_battle, GYM_BATTLE_INTERVAL, gym);
 }
 

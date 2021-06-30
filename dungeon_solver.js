@@ -1,5 +1,3 @@
-const DUNGEON_SOLVER_ACTION_INTERVAL = 250;
-
 class DungeonSolver {
     constructor(current_tile) {
         this.visited_tiles = new Set();
@@ -10,7 +8,6 @@ class DungeonSolver {
 
     run() {
         if (DungeonRunner.fighting()) {
-            setTimeout(this.run.bind(this), DUNGEON_SOLVER_ACTION_INTERVAL);
             return;
         }
 
@@ -28,13 +25,11 @@ class DungeonSolver {
 
         if (this.unvisited_tiles.size > 0) {
             const next_tile = this.get_next_tile();
-            DungeonRunner.map.moveToTile(next_tile);
             this.current_tile = next_tile;
-            setTimeout(this.run.bind(this), DUNGEON_SOLVER_ACTION_INTERVAL);
-            return;
+            DungeonRunner.map.moveToTile(next_tile);
+        } else {
+            this.fight_boss();
         }
-
-        this.fight_boss();
     }
 
     update_unvisited_tiles() {
