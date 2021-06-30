@@ -34,12 +34,7 @@ class DungeonSolver {
             return;
         }
 
-        if (this.boss_tile !== null) {
-            DungeonRunner.map.moveToTile(this.boss_tile);
-            DungeonRunner.startBossFight();
-        } else {
-            console.error("Dungeon solver failed to find the boss tile.");
-        }
+        this.fight_boss();
     }
 
     update_unvisited_tiles() {
@@ -81,5 +76,14 @@ class DungeonSolver {
 
     get_next_tile() {
         return JSON.parse(this.unvisited_tiles.values().next().value);
+    }
+
+    fight_boss() {
+        if (this.boss_tile !== null) {
+            DungeonRunner.map.moveToTile(this.boss_tile);
+            DungeonRunner.startBossFight();
+        } else {
+            console.error("Dungeon solver failed to find the boss tile.");
+        }
     }
 }
