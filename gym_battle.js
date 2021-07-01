@@ -58,4 +58,4 @@ GymRunner.gymWon = (gym) => {
     setTimeout(start_gym_battle, GYM_BATTLE_INTERVAL, gym);
 }
 
-keymage('alt-g', function() { battle_gym(); }, { preventDefault: true });
+keymage('alt-g', () => { battle_gym(); }, { preventDefault: true });

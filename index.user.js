@@ -8,8 +8,11 @@
 // @require     dungeon_solver.js
 // @require     farm.js
 // @require     gym_battle.js
+// @require     inventory.js
+// @require     key_binding_scopes.js
 // @require     mine.js
 // @require     oak_items.js
+// @require     shop.js
 // @grant       none
 // @icon        https://raw.githubusercontent.com/pokeclicker/pokeclicker/develop/src/assets/images/favicon.ico
 // @version     0.3.0
@@ -17,18 +20,28 @@
 // @description key bindings for various things
 // ==/UserScript==
 
+keymage('alt-s', () => { Save.download(); }, { preventDefault: true });
+
 function toggle_modal(name) {
     $(`#${name}Modal`).modal("toggle");
 }
 
-keymage('alt-s', function() { Save.download(); }, { preventDefault: true });
+keymage('ctrl-a', () => { toggle_modal("achievements"); }, { preventDefault: true });
+keymage('ctrl-d', () => { toggle_modal("pokedex"); }, { preventDefault: true });
+keymage('ctrl-f', () => { toggle_modal("farm"); }, { preventDefault: true });
+keymage('ctrl-h', () => { toggle_modal("breeding"); }, { preventDefault: true });
+keymage('ctrl-i', () => { toggle_modal("showItems"); }, { preventDefault: true });
+keymage('ctrl-l', () => { toggle_modal("logBook"); }, { preventDefault: true });
+keymage('ctrl-q', () => { toggle_modal("Quest"); }, { preventDefault: true });
+keymage('ctrl-s', () => { toggle_modal("shop"); }, { preventDefault: true });
+keymage('ctrl-u', () => { toggle_modal("mine"); }, { preventDefault: true });
 
-keymage('ctrl-a', function() { toggle_modal("achievements"); }, { preventDefault: true });
-keymage('ctrl-d', function() { toggle_modal("pokedex"); }, { preventDefault: true });
-keymage('ctrl-f', function() { toggle_modal("farm"); }, { preventDefault: true });
-keymage('ctrl-h', function() { toggle_modal("breeding"); }, { preventDefault: true });
-keymage('ctrl-i', function() { toggle_modal("showItems"); }, { preventDefault: true });
-keymage('ctrl-l', function() { toggle_modal("logBook"); }, { preventDefault: true });
-keymage('ctrl-q', function() { toggle_modal("Quest"); }, { preventDefault: true });
-keymage('ctrl-s', function() { toggle_modal("shop"); }, { preventDefault: true });
-keymage('ctrl-u', function() { toggle_modal("mine"); }, { preventDefault: true });
+function set_battle_item_multiplier(index) {
+    EffectEngineRunner.multIndex(index);
+}
+
+keymage('main', 'shift-1', () => { set_battle_item_multiplier(0); }, { preventDefault: true });
+keymage('main', 'shift-2', () => { set_battle_item_multiplier(1); }, { preventDefault: true });
+keymage('main', 'shift-3', () => { set_battle_item_multiplier(2); }, { preventDefault: true });
+keymage('main', 'shift-4', () => { set_battle_item_multiplier(3); }, { preventDefault: true });
+keymage('main', 'shift-5', () => { set_battle_item_multiplier(4); }, { preventDefault: true });

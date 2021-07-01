@@ -1,2 +1,2 @@
-keymage('alt-h', function() { App.game.farming.harvestAll(); }, { preventDefault: true });
-keymage('alt-p', function() { App.game.farming.plantAll(FarmController.selectedBerry()); }, { preventDefault: true });
+keymage('alt-h', () => { App.game.farming.harvestAll(); }, { preventDefault: true });
+keymage('alt-p', () => { App.game.farming.plantAll(FarmController.selectedBerry()); }, { preventDefault: true });

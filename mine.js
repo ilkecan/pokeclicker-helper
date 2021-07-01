@@ -2,5 +2,9 @@ function select_tool(name) {
     Mine.toolSelected(Mine.Tool[name]);
 }
 
-keymage('shift-1', function() { select_tool("Hammer"); }, { preventDefault: true });
-keymage('shift-2', function() { select_tool("Chisel"); }, { preventDefault: true });
+const underground_modal = $( '#mineModal' );
+underground_modal.on('show.bs.modal', () => { add_scope('underground'); });
+underground_modal.on('hide.bs.modal', () => { remove_scope('underground'); });
+
+keymage('underground', 'shift-1', () => { select_tool("Hammer"); }, { preventDefault: true });
+keymage('underground', 'shift-2', () => { select_tool("Chisel"); }, { preventDefault: true });
