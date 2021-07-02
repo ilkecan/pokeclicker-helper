@@ -5,16 +5,41 @@ var continue_gym_battle = false;
 function battle_gym() {
     if (continue_gym_battle) {
         continue_gym_battle = false;
-    } else {
-        continue_gym_battle = true;
+        return;
+    }
 
-        if (App.game.gameState != GameConstants.GameState.gym) {
+    switch (App.game.gameState) {
+        case GameConstants.GameState.town:
             const gym = select_gym();
 
-            if (gym !== null) {
-                start_gym_battle(gym);
+            switch (gym) {
+                case undefined:
+                    Notifier.notify({
+                        message: "The town you are in does not have a gym.",
+                        type: NotificationConstants.NotificationOption.danger,
+                    });
+                    break;
+
+                case null:
+                    break;
+
+                default:
+                    continue_gym_battle = true;
+                    start_gym_battle(gym);
+                    break;
             }
-        }
+            break;
+
+        case GameConstants.GameState.gym:
+            continue_gym_battle = true;
+            break;
+
+        default:
+            Notifier.notify({
+                message: "You must be in a gym battle or a town that has a gym.",
+                type: NotificationConstants.NotificationOption.danger,
+            });
+            break;
     }
 }
 
@@ -49,6 +74,10 @@ function select_gym() {
 function start_gym_battle(gym) {
     if (continue_gym_battle) {
         GymRunner.startGym(gym);
+
+        if (App.game.gameState !== GameConstants.GameState.gym) {
+            continue_gym_battle = false;
+        }
     }
 }
 
