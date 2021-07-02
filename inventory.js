@@ -1,4 +1,3 @@
-const vitamin_modal = $( '#pokemonSelectorModal' );
 vitamin_modal.on('show.bs.modal', () => { add_scope('vitamin'); });
 vitamin_modal.on('hide.bs.modal', () => { remove_scope('vitamin'); });
 
