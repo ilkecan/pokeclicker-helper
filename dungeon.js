@@ -54,8 +54,27 @@ function init_dungeon_solver() {
     const original_move_to_tile = DungeonRunner.map.moveToTile;
     DungeonRunner.map.moveToTile = (point) => {
         original_move_to_tile.call(DungeonRunner.map, point);
+
         if (dungeon_solver !== null) {
             setTimeout(dungeon_solver.run.bind(dungeon_solver), DUNGEON_SOLVER_ACTION_INTERVAL);
+        }
+    }
+
+    const original_show_chest_tiles = DungeonRunner.map.showChestTiles;
+    DungeonRunner.map.showChestTiles = () => {
+        original_show_chest_tiles.call(DungeonRunner.map);
+
+        if (dungeon_solver !== null) {
+            dungeon_solver.locate_chest_tiles();
+        }
+    }
+
+    const original_show_all_tiles = DungeonRunner.map.showAllTiles;
+    DungeonRunner.map.showAllTiles = () => {
+        original_show_all_tiles.call(DungeonRunner.map);
+
+        if (dungeon_solver !== null) {
+            dungeon_solver.locate_enemy_tiles();
         }
     }
 
@@ -73,6 +92,7 @@ DungeonRunner.dungeonWon = () => {
 const original_defeat_pokemon = DungeonBattle.defeatPokemon;
 DungeonBattle.defeatPokemon = () => {
     original_defeat_pokemon.call(DungeonBattle);
+
     if (dungeon_solver !== null) {
         setTimeout(dungeon_solver.run.bind(dungeon_solver), DUNGEON_SOLVER_ACTION_INTERVAL);
     }
@@ -81,9 +101,10 @@ DungeonBattle.defeatPokemon = () => {
 const original_defeat_trainer_pokemon = DungeonBattle.defeatTrainerPokemon;
 DungeonBattle.defeatTrainerPokemon = () => {
     original_defeat_trainer_pokemon.call(DungeonBattle);
+
     if (!DungeonRunner.fighting() && dungeon_solver !== null) {
         setTimeout(dungeon_solver.run.bind(dungeon_solver), DUNGEON_SOLVER_ACTION_INTERVAL);
     }
 }
 
-keymage('alt-d', function() { enter_dungeon(); }, { preventDefault: true });
+keymage('alt-d', () => { enter_dungeon(); }, { preventDefault: true });

@@ -4,6 +4,8 @@ class DungeonSolver {
         this.unvisited_tiles = new Set();
         this.boss_tile = null;
         this.current_tile = current_tile;
+        this.chest_tiles = new Set();
+        this.enemy_tiles = new Set();
     }
 
     run() {
@@ -11,7 +13,7 @@ class DungeonSolver {
             return;
         }
 
-        this.update_unvisited_tiles();
+        this.update_unvisited_tiles(this.current_tile);
 
         switch (DungeonRunner.map.currentTile().type()) {
             case GameConstants.DungeonTile.chest:
@@ -25,15 +27,20 @@ class DungeonSolver {
 
         if (this.unvisited_tiles.size > 0) {
             const next_tile = this.get_next_tile();
-            this.current_tile = next_tile;
-            DungeonRunner.map.moveToTile(next_tile);
+
+            if (next_tile === null) {
+                this.fight_boss();
+            } else {
+                this.current_tile = next_tile;
+                DungeonRunner.map.moveToTile(next_tile);
+            }
         } else {
             this.fight_boss();
         }
     }
 
-    update_unvisited_tiles() {
-        const neighbouring_tiles = DungeonSolver.get_neighbouring_tiles(this.current_tile);
+    update_unvisited_tiles(current_tile) {
+        const neighbouring_tiles = DungeonSolver.get_neighbouring_tiles(current_tile);
 
         for (const tile of neighbouring_tiles) {
             const stringified_tile = JSON.stringify(tile);
@@ -70,7 +77,31 @@ class DungeonSolver {
     }
 
     get_next_tile() {
-        return JSON.parse(this.unvisited_tiles.values().next().value);
+        for (const tile of this.chest_tiles) {
+            if (DungeonRunner.map.hasAccesToTile(tile)) {
+                this.chest_tiles.delete(tile);
+                return tile;
+            }
+        }
+
+        for (const tile of this.enemy_tiles) {
+            if (DungeonRunner.map.hasAccesToTile(tile)) {
+                this.enemy_tiles.delete(tile);
+                return tile;
+            }
+        }
+
+        for (const tile of this.unvisited_tiles) {
+            const parsed_tile = JSON.parse(tile);
+
+            if (!DungeonRunner.map.board()[parsed_tile.y][parsed_tile.x].isVisible) {
+                return parsed_tile;
+            }
+
+            this.update_unvisited_tiles(parsed_tile);
+        }
+
+        return null;
     }
 
     fight_boss() {
@@ -79,6 +110,38 @@ class DungeonSolver {
             DungeonRunner.startBossFight();
         } else {
             console.error("Dungeon solver failed to find the boss tile.");
+        }
+    }
+
+    locate_chest_tiles() {
+        const board = DungeonRunner.map.board();
+
+        for (let y = 0; y < board.length; y += 1) {
+            for (let x = 0; x < board[y].length; x += 1) {
+                if (board[y][x].type() == GameConstants.DungeonTile.chest) {
+                    this.chest_tiles.add(new Point(x, y));
+                }
+            }
+        }
+    }
+
+    locate_enemy_tiles() {
+        const board = DungeonRunner.map.board();
+
+        for (let y = 0; y < board.length; y += 1) {
+            for (let x = 0; x < board[y].length; x += 1) {
+                switch (board[y][x].type()) {
+                    case GameConstants.DungeonTile.enemy: {
+                        this.enemy_tiles.add(new Point(x, y));
+                        break;
+                    }
+
+                    case GameConstants.DungeonTile.boss: {
+                        this.boss_tile = new Point(x, y);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
