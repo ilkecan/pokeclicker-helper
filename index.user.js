@@ -40,12 +40,6 @@ keymage('ctrl-t', () => { toggle_modal("Ship"); }, { preventDefault: true });
 keymage('ctrl-u', () => { toggle_modal("mine"); }, { preventDefault: true });
 keymage('ctrl-z', () => { toggle_modal("shard"); }, { preventDefault: true });
 
-function set_battle_item_multiplier(index) {
-    EffectEngineRunner.multIndex(index);
+for (let i = 1; i <= EffectEngineRunner.multipliers.length; i += 1) {
+    keymage('main', `shift-${i}`, () => { EffectEngineRunner.multIndex(i - 1); }, { preventDefault: true });
 }
-
-keymage('main', 'shift-1', () => { set_battle_item_multiplier(0); }, { preventDefault: true });
-keymage('main', 'shift-2', () => { set_battle_item_multiplier(1); }, { preventDefault: true });
-keymage('main', 'shift-3', () => { set_battle_item_multiplier(2); }, { preventDefault: true });
-keymage('main', 'shift-4', () => { set_battle_item_multiplier(3); }, { preventDefault: true });
-keymage('main', 'shift-5', () => { set_battle_item_multiplier(4); }, { preventDefault: true });
