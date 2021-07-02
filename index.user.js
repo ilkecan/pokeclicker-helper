@@ -15,7 +15,7 @@
 // @require     shop.js
 // @grant       none
 // @icon        https://raw.githubusercontent.com/pokeclicker/pokeclicker/develop/src/assets/images/favicon.ico
-// @version     0.4.0
+// @version     0.5.0
 // @author      ilkecan
 // @description key bindings for various things
 // ==/UserScript==
