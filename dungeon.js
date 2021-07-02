@@ -6,18 +6,45 @@ var continue_entering_dungeon = false;
 function enter_dungeon() {
     if (continue_entering_dungeon) {
         continue_entering_dungeon = false;
-    } else {
-        continue_entering_dungeon = true;
+        return;
+    }
 
-        if (App.game.gameState != GameConstants.GameState.dungeon) {
-            start_dungeon(player.town().dungeon);
-        }
+    switch (App.game.gameState) {
+        case GameConstants.GameState.town:
+            const dungeon = player.town().dungeon;
+
+            if (dungeon === undefined) {
+                Notifier.notify({
+                    message: "The town you are in does not have a dungeon.",
+                    type: NotificationConstants.NotificationOption.danger,
+                });
+                return;
+            }
+
+            continue_entering_dungeon = true;
+            start_dungeon(dungeon);
+            break;
+
+        case GameConstants.GameState.dungeon:
+            continue_entering_dungeon = true;
+            break;
+
+        default:
+            Notifier.notify({
+                message: "You must be in a dungeon or a town that has a dungeon.",
+                type: NotificationConstants.NotificationOption.danger,
+            });
+            break;
     }
 }
 
 function start_dungeon(dungeon) {
     if (continue_entering_dungeon) {
-        DungeonRunner.initializeDungeon(dungeon);
+        if (DungeonRunner.initializeDungeon(dungeon) === false) {
+            continue_entering_dungeon = false;
+            return;
+        }
+
         setTimeout(init_dungeon_solver, DUNGEON_SOLVER_ACTION_INTERVAL);
     }
 }
