@@ -91,9 +91,15 @@ function start_gym_battle(gym) {
 }
 
 const original_gym_won = GymRunner.gymWon;
-GymRunner.gymWon = (gym) => {
-    original_gym_won.call(GymRunner, gym);
+GymRunner.gymWon = function(gym) {
+    original_gym_won.call(this, gym);
     setTimeout(start_gym_battle, GYM_BATTLE_INTERVAL, gym);
+}
+
+const original_gym_lost = GymRunner.gymLost;
+GymRunner.gymLost = function(gym) {
+    original_gym_lost.call(this, gym);
+    continue_gym_battle = false;
 }
 
 keymage('alt-g', () => { battle_gym(); }, { preventDefault: true });
