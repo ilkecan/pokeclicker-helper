@@ -7,7 +7,11 @@ function get_shop() {
         }
     }
 
-    return pokeMartShop;
+    if (App.game.statistics.gymsDefeated[GameConstants.getGymIndex('Champion Lance')]() > 0) {
+        return pokeMartShop;
+    }
+
+    return null;
 }
 
 shop_modal.on('show.bs.modal', () => { add_scope('shop'); });
