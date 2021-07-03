@@ -2,7 +2,7 @@ const GYM_BATTLE_INTERVAL = 1000;
 
 var continue_gym_battle = false;
 
-function battle_gym() {
+async function battle_gym() {
     if (continue_gym_battle) {
         continue_gym_battle = false;
         return;
@@ -10,7 +10,7 @@ function battle_gym() {
 
     switch (App.game.gameState) {
         case GameConstants.GameState.town:
-            const gym = select_gym();
+            const gym = await select_gym();
 
             switch (gym) {
                 case undefined:
@@ -43,7 +43,7 @@ function battle_gym() {
     }
 }
 
-function select_gym() {
+async function select_gym() {
     const town = player.town();
 
     if (!(town instanceof PokemonLeague)) {
@@ -54,18 +54,27 @@ function select_gym() {
     const gym_leaders = gyms.map((gym) => gym.leaderName);
     const GYM_LEADER_PROMPT_MESSAGE =
         "Type the name of the gym leader you want to battle with:\n" +
-        `- ${gym_leaders.join("\n- ")}\n`;
+        `- ${gym_leaders.join("\n- ")}`;
     const gym_mapping = new Map(gyms.map((gym) => [gym.leaderName.toLowerCase(), gym]));
 
-    let gym = undefined;
-    while (gym === undefined) {
-        const gym_leader = window.prompt(GYM_LEADER_PROMPT_MESSAGE);
+    const gym_leader = await Notifier.prompt({
+        title: "Start a gym battle",
+        message: GYM_LEADER_PROMPT_MESSAGE
+    });
 
-        if (gym_leader === null) {
-            return null;
-        }
+    if (gym_leader === "") {
+        return null;
+    }
 
-        gym = gym_mapping.get(gym_leader.toLowerCase());
+    const gym = gym_mapping.get(gym_leader.toLowerCase());
+
+    if (gym === undefined) {
+        Notifier.notify({
+            message: "A gym with a gym leader with the given name does not exist.",
+            type: NotificationConstants.NotificationOption.danger,
+        });
+
+        return null;
     }
 
     return gym;
