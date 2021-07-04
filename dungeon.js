@@ -87,7 +87,7 @@ DungeonMap.prototype.showChestTiles = function() {
     original_show_chest_tiles.call(this);
 
     if (dungeon_solver !== null) {
-        dungeon_solver.locate_chest_tiles();
+        dungeon_solver.dungeon_visibility = DUNGEON_VISIBILITY.CHESTS_VISIBLE;
     }
 }
 
@@ -96,6 +96,7 @@ DungeonMap.prototype.showAllTiles = function() {
     original_show_all_tiles.call(this);
 
     if (dungeon_solver !== null) {
+        dungeon_solver.dungeon_visibility = DUNGEON_VISIBILITY.ALL_VISIBLE;
         dungeon_solver.locate_enemy_tiles();
     }
 }

@@ -1,3 +1,9 @@
+const DUNGEON_VISIBILITY = {
+    BLIND: 0,
+    CHESTS_VISIBLE: 1,
+    ALL_VISIBLE: 2,
+};
+
 class DungeonSolver {
     constructor(current_tile) {
         this.visited_tiles = new Set();
@@ -6,6 +12,8 @@ class DungeonSolver {
         this.current_tile = current_tile;
         this.chest_tiles = new Set();
         this.enemy_tiles = new Set();
+        this.route = [];
+        this.dungeon_visibility = DUNGEON_VISIBILITY.BLIND;
     }
 
     run() {
@@ -25,17 +33,13 @@ class DungeonSolver {
                 break;
         }
 
-        if (this.unvisited_tiles.size > 0) {
-            const next_tile = this.get_next_tile();
+        const next_tile = this.get_next_tile();
 
-            if (next_tile === null) {
-                this.fight_boss();
-            } else {
-                this.current_tile = next_tile;
-                DungeonRunner.map.moveToTile(next_tile);
-            }
-        } else {
+        if (next_tile === null) {
             this.fight_boss();
+        } else {
+            this.current_tile = next_tile;
+            DungeonRunner.map.moveToTile(next_tile);
         }
     }
 
@@ -77,40 +81,61 @@ class DungeonSolver {
     }
 
     get_next_tile() {
-        for (const tile of this.chest_tiles) {
-            if (DungeonRunner.map.hasAccesToTile(tile)) {
-                this.chest_tiles.delete(tile);
-                return tile;
-            }
+        switch (this.dungeon_visibility) {
+            case DUNGEON_VISIBILITY.ALL_VISIBLE:
+                if (this.enemy_tiles.size === 0) {
+                    this.locate_enemy_tiles();
+                }
+
+                for (const tile of this.chest_tiles) {
+                    if (DungeonRunner.map.hasAccesToTile(tile)) {
+                        this.chest_tiles.delete(tile);
+                        return tile;
+                    }
+                }
+
+                for (const tile of this.enemy_tiles) {
+                    if (DungeonRunner.map.hasAccesToTile(tile)) {
+                        this.enemy_tiles.delete(tile);
+                        return tile;
+                    }
+                }
+
+                return null;
+
+            case DUNGEON_VISIBILITY.CHESTS_VISIBLE:
+                if (this.chest_tiles.size === 0) {
+                    this.locate_chest_tiles();
+                }
+
+                if (this.route.length === 0) {
+                    this.plot_route_to_closest_chest();
+                }
+
+                return this.route.pop();
+
+            case DUNGEON_VISIBILITY.BLIND:
+                for (const tile of this.unvisited_tiles) {
+                    const parsed_tile = JSON.parse(tile);
+
+                    if (!DungeonRunner.map.board()[parsed_tile.y][parsed_tile.x].isVisible) {
+                        return parsed_tile;
+                    }
+
+                    this.update_unvisited_tiles(parsed_tile);
+                }
+
+                throw new Error("Run out of unvisited tiles before the chests become visible.");
         }
-
-        for (const tile of this.enemy_tiles) {
-            if (DungeonRunner.map.hasAccesToTile(tile)) {
-                this.enemy_tiles.delete(tile);
-                return tile;
-            }
-        }
-
-        for (const tile of this.unvisited_tiles) {
-            const parsed_tile = JSON.parse(tile);
-
-            if (!DungeonRunner.map.board()[parsed_tile.y][parsed_tile.x].isVisible) {
-                return parsed_tile;
-            }
-
-            this.update_unvisited_tiles(parsed_tile);
-        }
-
-        return null;
     }
 
     fight_boss() {
-        if (this.boss_tile !== null) {
-            DungeonRunner.map.moveToTile(this.boss_tile);
-            DungeonRunner.startBossFight();
-        } else {
-            console.error("Dungeon solver failed to find the boss tile.");
+        if (this.boss_tile === null) {
+            throw new Error("Dungeon solver failed to find the boss tile.");
         }
+
+        DungeonRunner.map.moveToTile(this.boss_tile);
+        DungeonRunner.startBossFight();
     }
 
     locate_chest_tiles() {
@@ -143,5 +168,25 @@ class DungeonSolver {
                 }
             }
         }
+    }
+
+    plot_route_to_closest_chest() {
+        const [closest_visited_tile, chest_tile] = this.find_the_closest_chest();
+        this.chest_tiles.delete(chest_tile);
+
+        this.route = [ chest_tile ];
+
+        for (const tile of follow_bresenhams_line_algorithm(chest_tile, closest_visited_tile)) {
+            this.route.push(tile);
+        }
+
+        this.route.pop();
+    }
+
+    find_the_closest_chest() {
+        const v1 = Array.from(this.visited_tiles).map(m => JSON.parse(m));
+        const v2 = Array.from(this.chest_tiles);
+
+        return find_closest_points(v1, v2);
     }
 }
