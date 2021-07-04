@@ -39,10 +39,10 @@ function toggle_shop_modal() {
 }
 
 function toggle_shard_modal() {
-    if (!shop_modal.hasClass("show")) {
+    if (!shard_modal.hasClass("show")) {
         App.game.shards.openShardModal();
     } else {
-        close_modal(shop_modal);
+        close_modal(shard_modal);
     }
 }
 
