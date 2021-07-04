@@ -115,4 +115,41 @@ DungeonRunner.dungeonLost = function() {
     continue_entering_dungeon = false;
 }
 
+const roa_boss_base_health = dungeonList['Ruins of Alph'].bossList[0].baseHealth;
+const roa_boss_level = dungeonList['Ruins of Alph'].bossList[0].level;
+dungeonList['Ruins of Alph'].bossList.push(...[
+    new DungeonBossPokemon('Unown (R)', roa_boss_base_health, roa_boss_level),
+    // new DungeonBossPokemon('Unown (U)', roa_boss_base_health, roa_boss_level),
+    new DungeonBossPokemon('Unown (I)', roa_boss_base_health, roa_boss_level),
+    // new DungeonBossPokemon('Unown (N)', roa_boss_base_health, roa_boss_level),
+    new DungeonBossPokemon('Unown (S)', roa_boss_base_health, roa_boss_level),
+
+    new DungeonBossPokemon('Unown (O)', roa_boss_base_health, roa_boss_level),
+    // new DungeonBossPokemon('Unown (F)', roa_boss_base_health, roa_boss_level),
+    //
+    // new DungeonBossPokemon('Unown (A)', roa_boss_base_health, roa_boss_level),
+    // new DungeonBossPokemon('Unown (L)', roa_boss_base_health, roa_boss_level),
+    // new DungeonBossPokemon('Unown (P)', roa_boss_base_health, roa_boss_level),
+    // new DungeonBossPokemon('Unown (H)', roa_boss_base_health, roa_boss_level),
+]);
+
+const solaceon_ruins_boss_base_health = dungeonList['Solaceon Ruins'].bossList[0].baseHealth;
+const solaceon_ruins_boss_level = dungeonList['Solaceon Ruins'].bossList[0].level;
+dungeonList['Solaceon Ruins'].bossList.push(...[
+    new DungeonBossPokemon('Unown (S)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    new DungeonBossPokemon('Unown (O)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (L)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (A)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    new DungeonBossPokemon('Unown (C)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (E)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (O)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (N)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+
+    new DungeonBossPokemon('Unown (R)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (U)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    new DungeonBossPokemon('Unown (I)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (N)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+    // new DungeonBossPokemon('Unown (S)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
+]);
+
 keymage('alt-d', () => { enter_dungeon(); }, { preventDefault: true });
