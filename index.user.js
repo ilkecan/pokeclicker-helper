@@ -14,6 +14,7 @@
 // @require     key_binding_scopes.js
 // @require     oak_items.js
 // @require     shop.js
+// @require     surfing_pikachu.js
 // @require     underground.js
 // @grant       none
 // @icon        https://raw.githubusercontent.com/pokeclicker/pokeclicker/develop/src/assets/images/favicon.ico
