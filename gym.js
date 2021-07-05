@@ -53,31 +53,50 @@ async function select_gym() {
     const gyms = town.gymList;
     const gym_leaders = gyms.map((gym) => gym.leaderName);
     const GYM_LEADER_PROMPT_MESSAGE =
-        "Type the name of the gym leader you want to battle with:\n" +
-        `- ${gym_leaders.join("\n- ")}`;
+        "Type the name or the number of the gym leader you want to battle with:\n" +
+        `${gym_leaders.map((e, i) => `${i + 1}. ${e}`).join("\n")}`;
+        // `- ${gym_leaders.join("\n- ")}`;
     const gym_mapping = new Map(gyms.map((gym) => [gym.leaderName.toLowerCase(), gym]));
 
-    const gym_leader = await Notifier.prompt({
+    const input = await Notifier.prompt({
         title: "Start a gym battle",
         message: GYM_LEADER_PROMPT_MESSAGE
     });
+    const gym_leader_number = parseInt(input);
 
-    if (gym_leader === "") {
-        return null;
+    if (Number.isNaN(gym_leader_number)) {
+        const gym_leader_name = input;
+
+        if (gym_leader_name === "") {
+            return null;
+        }
+
+        const gym = gym_mapping.get(gym_leader_name.toLowerCase());
+
+        if (gym === undefined) {
+            Notifier.notify({
+                message: "A gym with a gym leader with the given name does not exist.",
+                type: NotificationConstants.NotificationOption.danger,
+            });
+
+            return null;
+        }
+
+        return gym;
+    } else {
+        const gym = gyms[gym_leader_number - 1];
+
+        if (gym === undefined) {
+            Notifier.notify({
+                message: "A gym with a gym leader with the given number does not exist.",
+                type: NotificationConstants.NotificationOption.danger,
+            });
+
+            return null;
+        }
+
+        return gym;
     }
-
-    const gym = gym_mapping.get(gym_leader.toLowerCase());
-
-    if (gym === undefined) {
-        Notifier.notify({
-            message: "A gym with a gym leader with the given name does not exist.",
-            type: NotificationConstants.NotificationOption.danger,
-        });
-
-        return null;
-    }
-
-    return gym;
 }
 
 function start_gym_battle(gym) {
