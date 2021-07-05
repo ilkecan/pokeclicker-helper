@@ -15,5 +15,5 @@ GameController.focusedOnEditableElement = function() {
     return original_focused_on_editable_element.call(this);
 }
 
-keymage('underground', 'shift-1', () => { select_tool("Hammer"); }, { preventDefault: true });
-keymage('underground', 'shift-2', () => { select_tool("Chisel"); }, { preventDefault: true });
+keymage('underground', 'shift-1', () => { select_tool("Chisel"); }, { preventDefault: true });
+keymage('underground', 'shift-2', () => { select_tool("Hammer"); }, { preventDefault: true });
