@@ -3,7 +3,7 @@ const ENTER_DUNGEON_INTERVAL = 1000;
 
 var continue_entering_dungeon = false;
 
-function enter_dungeon() {
+function toggle_dungeon() {
     if (continue_entering_dungeon) {
         continue_entering_dungeon = false;
         return;
@@ -22,7 +22,7 @@ function enter_dungeon() {
             }
 
             continue_entering_dungeon = true;
-            start_dungeon(dungeon);
+            enter_dungeon(dungeon);
             break;
 
         case GameConstants.GameState.dungeon:
@@ -38,7 +38,7 @@ function enter_dungeon() {
     }
 }
 
-function start_dungeon(dungeon) {
+function enter_dungeon(dungeon) {
     if (continue_entering_dungeon) {
         if (DungeonRunner.initializeDungeon(dungeon) === false) {
             continue_entering_dungeon = false;
@@ -107,7 +107,7 @@ const original_dungeon_won = DungeonRunner.dungeonWon;
 DungeonRunner.dungeonWon = function() {
     original_dungeon_won.call(this)
     dungeon_solver = null;
-    setTimeout(start_dungeon, ENTER_DUNGEON_INTERVAL, DungeonRunner.dungeon);
+    setTimeout(enter_dungeon, ENTER_DUNGEON_INTERVAL, DungeonRunner.dungeon);
 }
 
 const original_dungeon_lost = DungeonRunner.dungeonLost;
@@ -154,4 +154,4 @@ dungeonList['Solaceon Ruins'].bossList.push(...[
     // new DungeonBossPokemon('Unown (S)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
 ]);
 
-keymage('alt-d', () => { enter_dungeon(); }, { preventDefault: true });
+keymage('alt-d', () => { toggle_dungeon(); }, { preventDefault: true });

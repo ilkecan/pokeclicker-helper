@@ -2,7 +2,7 @@ const GYM_BATTLE_INTERVAL = 1000;
 
 var continue_gym_battle = false;
 
-async function battle_gym() {
+async function toggle_gym_battle() {
     if (continue_gym_battle) {
         continue_gym_battle = false;
         return;
@@ -102,4 +102,4 @@ GymRunner.gymLost = function(gym) {
     continue_gym_battle = false;
 }
 
-keymage('alt-g', () => { battle_gym(); }, { preventDefault: true });
+keymage('alt-g', () => { toggle_gym_battle(); }, { preventDefault: true });
