@@ -187,6 +187,6 @@ class DungeonSolver {
         const v1 = Array.from(this.visited_tiles).map(m => JSON.parse(m));
         const v2 = Array.from(this.chest_tiles);
 
-        return find_closest_points(v1, v2);
+        return find_the_closest_points(v1, v2);
     }
 }

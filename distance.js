@@ -2,7 +2,7 @@ function calculate_manhattan_distance(p1, p2) {
     return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 }
 
-function find_closest_points(v1, v2) {
+function find_the_closest_points(v1, v2) {
     let minimum_distance = Number.POSITIVE_INFINITY;
     let closest_points = null;
 
