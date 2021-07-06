@@ -5,11 +5,10 @@ const DUNGEON_VISIBILITY = {
 };
 
 class DungeonSolver {
-    constructor(current_tile) {
+    constructor() {
         this.visited_tiles = new Set();
         this.unvisited_tiles = new Set();
         this.boss_tile = null;
-        this.current_tile = current_tile;
         this.chest_tiles = new Set();
         this.enemy_tiles = new Set();
         this.route = [];
@@ -21,16 +20,10 @@ class DungeonSolver {
             return;
         }
 
-        this.update_unvisited_tiles(this.current_tile);
+        this.update_unvisited_tiles();
 
-        switch (DungeonRunner.map.currentTile().type()) {
-            case GameConstants.DungeonTile.chest:
-                DungeonRunner.openChest();
-                break;
-
-            case GameConstants.DungeonTile.boss:
-                this.boss_tile = this.current_tile;
-                break;
+        if (DungeonRunner.map.currentTile().type() === GameConstants.DungeonTile.chest) {
+            DungeonRunner.openChest();
         }
 
         const next_tile = this.get_next_tile();
@@ -38,12 +31,12 @@ class DungeonSolver {
         if (next_tile === null) {
             this.fight_boss();
         } else {
-            this.current_tile = next_tile;
             DungeonRunner.map.moveToTile(next_tile);
         }
     }
 
-    update_unvisited_tiles(current_tile) {
+    update_unvisited_tiles() {
+        const current_tile = DungeonRunner.map.playerPosition();
         const neighbouring_tiles = DungeonSolver.get_neighbouring_tiles(current_tile);
 
         for (const tile of neighbouring_tiles) {
@@ -53,7 +46,7 @@ class DungeonSolver {
             }
         }
 
-        const stringified_current_tile = JSON.stringify(this.current_tile);
+        const stringified_current_tile = JSON.stringify(current_tile);
         this.unvisited_tiles.delete(stringified_current_tile);
         this.visited_tiles.add(stringified_current_tile);
     }

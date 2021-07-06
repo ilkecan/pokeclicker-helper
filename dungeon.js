@@ -51,7 +51,7 @@ function enter_dungeon(dungeon) {
 
 let dungeon_solver = null;
 function init_dungeon_solver() {
-    dungeon_solver = new DungeonSolver(DungeonRunner.map.playerPosition());
+    dungeon_solver = new DungeonSolver();
     dungeon_solver.run();
 }
 
