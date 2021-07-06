@@ -1,16 +1,17 @@
 const achievements_modal = $( "#achievementsModal" );
-const pokedex_modal = $( "#pokedexModal" );
-const farm_modal = $( "#farmModal" );
 const day_care_modal = $( "#breedingModal" );
+const farm_modal = $( "#farmModal" );
 const items_modal = $( "#showItemsModal" );
 const log_book_modal = $( "#logBookModal" );
-const vitamin_modal = $( "#pokemonSelectorModal" );
 const oak_items_modal = $( "#oakItemsModal" );
+const pokedex_modal = $( "#pokedexModal" );
 const quest_modal = $( "#QuestModal" );
+const safari_modal = $( "#safariModal" );
+const shard_modal = $( "#shardModal" );
 const shop_modal = $( "#shopModal" );
 const travel_modal = $( "#ShipModal" );
 const underground_modal = $( "#mineModal" );
-const shard_modal = $( "#shardModal" );
+const vitamin_modal = $( "#pokemonSelectorModal" );
 
 function toggle_modal(modal) {
     modal.modal("toggle");
@@ -88,14 +89,27 @@ function toggle_underground_modal() {
     }
 }
 
+function toggle_safari_modal() {
+    if (!Safari.canAccess()) {
+        return;
+    }
+
+    if (!safari_modal.hasClass("show")) {
+        Safari.openModal();
+    } else {
+        Safari.closeModal();
+    }
+}
+
 keymage('ctrl-f', () => { toggle_farm_modal(); }, { preventDefault: true });
 keymage('ctrl-h', () => { toggle_day_care_modal(); }, { preventDefault: true });
 keymage('ctrl-o', () => { toggle_oak_items_modal(); }, { preventDefault: true });
 keymage('ctrl-q', () => { toggle_quest_modal(); }, { preventDefault: true });
+keymage('ctrl-r', () => { toggle_shard_modal(); }, { preventDefault: true });
 keymage('ctrl-s', () => { toggle_shop_modal(); }, { preventDefault: true });
 keymage('ctrl-t', () => { toggle_travel_modal(); }, { preventDefault: true });
 keymage('ctrl-u', () => { toggle_underground_modal(); }, { preventDefault: true });
-keymage('ctrl-z', () => { toggle_shard_modal(); }, { preventDefault: true });
+keymage('ctrl-z', () => { toggle_safari_modal(); }, { preventDefault: true });
 
 keymage('ctrl-a', () => { toggle_modal(achievements_modal); }, { preventDefault: true });
 keymage('ctrl-d', () => { toggle_modal(pokedex_modal); }, { preventDefault: true });
