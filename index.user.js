@@ -23,6 +23,8 @@
 // @description key bindings for various things
 // ==/UserScript==
 
+"use strict";
+
 keymage('alt-s', () => { Save.download(); }, { preventDefault: true });
 
 for (let i = 1; i <= EffectEngineRunner.multipliers.length; i += 1) {
