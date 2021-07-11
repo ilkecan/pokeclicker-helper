@@ -4,7 +4,7 @@
 // @match       https://www.pokeclicker.com/
 // @require     https://cdnjs.cloudflare.com/ajax/libs/keymage/1.1.3/keymage.min.js
 // @require     modals.js
-// @require     distance.js
+// @require     spatial_helper.js
 // @require     dungeon.js
 // @require     dungeon_solver.js
 // @require     farm.js

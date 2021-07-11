@@ -37,9 +37,12 @@ class DungeonSolver {
 
     update_unvisited_tiles() {
         const current_tile = DungeonRunner.map.playerPosition();
-        const neighbouring_tiles = DungeonSolver.get_neighbouring_tiles(current_tile);
+        const adjacent_tiles = SpatialHelper.get_adjacent_cells(
+            current_tile,
+            DungeonSolver.is_valid_tile,
+        );
 
-        for (const tile of neighbouring_tiles) {
+        for (const tile of adjacent_tiles) {
             const stringified_tile = JSON.stringify(tile);
             if (!this.visited_tiles.has(stringified_tile)) {
                 this.unvisited_tiles.add(stringified_tile);
@@ -49,28 +52,6 @@ class DungeonSolver {
         const stringified_current_tile = JSON.stringify(current_tile);
         this.unvisited_tiles.delete(stringified_current_tile);
         this.visited_tiles.add(stringified_current_tile);
-    }
-
-    static get_neighbouring_tiles(tile) {
-        const {x, y} = tile;
-        const neighbouring_tiles = [
-            new Point(x - 1, y),
-            new Point(x, y - 1),
-            new Point(x + 1, y),
-            new Point(x, y + 1),
-        ];
-
-        return neighbouring_tiles.filter(DungeonSolver.is_valid_tile);
-    }
-
-    static is_valid_tile(tile) {
-        const size = DungeonRunner.map.size;
-
-        if (tile.x < 0 || tile.x >= size || tile.y < 0 || tile.y >= size) {
-            return false;
-        }
-
-        return true;
     }
 
     get_next_tile() {
@@ -132,23 +113,21 @@ class DungeonSolver {
     }
 
     locate_chest_tiles() {
-        const board = DungeonRunner.map.board();
-
-        for (let y = 0; y < board.length; y += 1) {
-            for (let x = 0; x < board[y].length; x += 1) {
-                if (board[y][x].type() == GameConstants.DungeonTile.chest) {
+        SpatialHelper.for_each_cell_in_grid(
+            DungeonRunner.map.board(),
+            (tile, x, y) => {
+                if (tile.type() == GameConstants.DungeonTile.chest) {
                     this.chest_tiles.add(new Point(x, y));
                 }
-            }
-        }
+            },
+        );
     }
 
     locate_enemy_tiles() {
-        const board = DungeonRunner.map.board();
-
-        for (let y = 0; y < board.length; y += 1) {
-            for (let x = 0; x < board[y].length; x += 1) {
-                switch (board[y][x].type()) {
+        SpatialHelper.for_each_cell_in_grid(
+            DungeonRunner.map.board(),
+            (tile, x, y) => {
+                switch (tile.type()) {
                     case GameConstants.DungeonTile.enemy: {
                         this.enemy_tiles.add(new Point(x, y));
                         break;
@@ -159,8 +138,8 @@ class DungeonSolver {
                         break;
                     }
                 }
-            }
-        }
+            },
+        );
     }
 
     plot_route_to_closest_chest() {
@@ -169,7 +148,10 @@ class DungeonSolver {
 
         this.route = [ chest_tile ];
 
-        for (const tile of follow_bresenhams_line_algorithm(chest_tile, closest_visited_tile)) {
+        for (const tile of SpatialHelper.follow_bresenhams_line_algorithm(
+            chest_tile,
+            closest_visited_tile,
+        )) {
             this.route.push(tile);
         }
 
@@ -180,6 +162,16 @@ class DungeonSolver {
         const v1 = Array.from(this.visited_tiles).map(m => JSON.parse(m));
         const v2 = Array.from(this.chest_tiles);
 
-        return find_the_closest_points(v1, v2);
+        return SpatialHelper.find_the_closest_points(v1, v2);
+    }
+
+    static is_valid_tile(tile) {
+        const size = DungeonRunner.map.size;
+
+        if (tile.x < 0 || tile.x >= size || tile.y < 0 || tile.y >= size) {
+            return false;
+        }
+
+        return true;
     }
 }

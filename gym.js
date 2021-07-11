@@ -55,7 +55,6 @@ async function select_gym() {
     const GYM_LEADER_PROMPT_MESSAGE =
         "Type the name or the number of the gym leader you want to battle with:\n" +
         `${gym_leaders.map((e, i) => `${i + 1}. ${e}`).join("\n")}`;
-        // `- ${gym_leaders.join("\n- ")}`;
     const gym_mapping = new Map(gyms.map((gym) => [gym.leaderName.toLowerCase(), gym]));
 
     const input = await Notifier.prompt({
