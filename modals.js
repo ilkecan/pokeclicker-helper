@@ -6,6 +6,7 @@ const log_book_modal = $( "#logBookModal" );
 const oak_items_modal = $( "#oakItemsModal" );
 const pokedex_modal = $( "#pokedexModal" );
 const quest_modal = $( "#QuestModal" );
+const safari_battle_modal = $( "#safariBattleModal" );
 const safari_modal = $( "#safariModal" );
 const shard_modal = $( "#shardModal" );
 const shop_modal = $( "#shopModal" );

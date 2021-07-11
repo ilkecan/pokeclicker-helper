@@ -13,6 +13,8 @@
 // @require     inventory.js
 // @require     key_binding_scopes.js
 // @require     oak_items.js
+// @require     safari.js
+// @require     safari_runner.js
 // @require     shop.js
 // @require     surfing_pikachu.js
 // @require     underground.js
