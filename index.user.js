@@ -11,7 +11,7 @@
 // @require     gym.js
 // @require     hatchery.js
 // @require     inventory.js
-// @require     key_binding_scopes.js
+// @require     key_binding.js
 // @require     oak_items.js
 // @require     safari.js
 // @require     safari_runner.js
@@ -27,8 +27,12 @@
 
 "use strict";
 
-keymage('alt-s', () => { Save.download(); }, { preventDefault: true });
+bind_key("alt-s", () => { Save.download(); });
 
 for (let i = 1; i <= EffectEngineRunner.multipliers.length; i += 1) {
-    keymage('main', `shift-${i}`, () => { EffectEngineRunner.multIndex(i - 1); }, { preventDefault: true });
+    bind_key(
+        `shift-${i}`,
+        () => { EffectEngineRunner.multIndex(i - 1); },
+        "main",
+    );
 }

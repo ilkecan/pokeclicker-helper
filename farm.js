@@ -4,5 +4,5 @@ Farming.prototype.shovel = function(index) {
     GameHelper.incrementObservable(this.shovelAmt, 1);
 }
 
-keymage('alt-h', () => { App.game.farming.harvestAll(); }, { preventDefault: true });
-keymage('alt-p', () => { App.game.farming.plantAll(FarmController.selectedBerry()); }, { preventDefault: true });
+bind_key("alt-h", () => { App.game.farming.harvestAll(); });
+bind_key("alt-p", () => { App.game.farming.plantAll(FarmController.selectedBerry()); });

@@ -10,5 +10,5 @@ OakItemLoadouts.prototype.fromJSON = function(json) {
 }
 
 for (let i = 1; i <= NUMBER_OF_OAK_ITEM_LOADOUTS; i += 1) {
-    keymage(`alt-${i}`, () => { App.game.oakItemLoadouts.activateLoadout(i - 1); }, { preventDefault: true });
+    bind_key(`alt-${i}`, () => { App.game.oakItemLoadouts.activateLoadout(i - 1); });
 }

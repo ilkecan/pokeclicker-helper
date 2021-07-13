@@ -26,3 +26,15 @@ function remove_scope(name) {
 
     console.error(`Scope named "${name}" not found.`);
 }
+
+function bind_key(key_combo, callback, scope = "") {
+    keymage(scope, key_combo, event => {
+        if (GameController.focusedOnEditableElement()) {
+            return;
+        }
+
+        callback();
+
+        event.preventDefault();
+    });
+}

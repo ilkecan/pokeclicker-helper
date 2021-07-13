@@ -120,4 +120,4 @@ GymRunner.gymLost = function(gym) {
     continue_gym_battle = false;
 }
 
-keymage('alt-g', () => { toggle_gym_battle(); }, { preventDefault: true });
+bind_key("alt-g", toggle_gym_battle);

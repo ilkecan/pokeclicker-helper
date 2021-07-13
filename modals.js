@@ -102,18 +102,18 @@ function toggle_safari_modal() {
     }
 }
 
-keymage('ctrl-f', () => { toggle_farm_modal(); }, { preventDefault: true });
-keymage('ctrl-h', () => { toggle_day_care_modal(); }, { preventDefault: true });
-keymage('ctrl-o', () => { toggle_oak_items_modal(); }, { preventDefault: true });
-keymage('ctrl-q', () => { toggle_quest_modal(); }, { preventDefault: true });
-keymage('ctrl-r', () => { toggle_shard_modal(); }, { preventDefault: true });
-keymage('ctrl-s', () => { toggle_shop_modal(); }, { preventDefault: true });
-keymage('ctrl-t', () => { toggle_travel_modal(); }, { preventDefault: true });
-keymage('ctrl-u', () => { toggle_underground_modal(); }, { preventDefault: true });
-keymage('ctrl-z', () => { toggle_safari_modal(); }, { preventDefault: true });
+bind_key("ctrl-f", toggle_farm_modal);
+bind_key("ctrl-h", toggle_day_care_modal);
+bind_key("ctrl-o", toggle_oak_items_modal);
+bind_key("ctrl-q", toggle_quest_modal);
+bind_key("ctrl-r", toggle_shard_modal);
+bind_key("ctrl-s", toggle_shop_modal);
+bind_key("ctrl-t", toggle_travel_modal);
+bind_key("ctrl-u", toggle_underground_modal);
+bind_key("ctrl-z", toggle_safari_modal);
 
-keymage('ctrl-a', () => { toggle_modal(achievements_modal); }, { preventDefault: true });
-keymage('ctrl-d', () => { toggle_modal(pokedex_modal); }, { preventDefault: true });
-keymage('ctrl-i', () => { toggle_modal(items_modal); }, { preventDefault: true });
-keymage('ctrl-l', () => { toggle_modal(log_book_modal); }, { preventDefault: true });
-keymage('ctrl-p', () => { toggle_modal(vitamin_modal); }, { preventDefault: true });
+bind_key("ctrl-a", () => { toggle_modal(achievements_modal); });
+bind_key("ctrl-d", () => { toggle_modal(pokedex_modal); });
+bind_key("ctrl-i", () => { toggle_modal(items_modal); });
+bind_key("ctrl-l", () => { toggle_modal(log_book_modal); });
+bind_key("ctrl-p", () => { toggle_modal(vitamin_modal); });

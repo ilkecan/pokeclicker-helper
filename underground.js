@@ -72,9 +72,9 @@ $( document ).ready(() => {
     }));
 });
 
-keymage('underground', 'shift-1', () => { select_tool("Chisel"); }, { preventDefault: true });
-keymage('underground', 'shift-2', () => { select_tool("Hammer"); }, { preventDefault: true });
+bind_key("shift-1", () => { select_tool("Chisel"); }, "underground");
+bind_key("shift-2", () => { select_tool("Hammer"); }, "underground");
 
-keymage('underground', 'ctrl-1', () => { use_item("SmallRestore"); }, { preventDefault: true });
-keymage('underground', 'ctrl-2', () => { use_item("MediumRestore"); }, { preventDefault: true });
-keymage('underground', 'ctrl-3', () => { use_item("LargeRestore"); }, { preventDefault: true });
+bind_key("ctrl-1", () => { use_item("SmallRestore"); }, "underground");
+bind_key("ctrl-2", () => { use_item("MediumRestore"); }, "underground");
+bind_key("ctrl-3", () => { use_item("LargeRestore"); }, "underground");

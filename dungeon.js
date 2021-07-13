@@ -154,4 +154,4 @@ dungeonList['Solaceon Ruins'].bossList.push(...[
     // new DungeonBossPokemon('Unown (S)', solaceon_ruins_boss_base_health, solaceon_ruins_boss_level),
 ]);
 
-keymage('alt-d', () => { toggle_dungeon(); }, { preventDefault: true });
+bind_key("alt-d", toggle_dungeon);

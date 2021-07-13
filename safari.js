@@ -208,4 +208,4 @@ safari_battle_modal.on('hidden.bs.modal', () => {
     setTimeout(safari_runner.run.bind(safari_runner), SAFARI_RUNNER_INTERVAL);
 })
 
-keymage('alt-z', () => { toggle_safari(); }, { preventDefault: true });
+bind_key("alt-z", toggle_safari);
