@@ -27,6 +27,12 @@
 
 "use strict";
 
+const original_game_start = Game.prototype.start;
+Game.prototype.start = function() {
+    original_game_start.call(this, ...arguments);
+    create_breeding_pokemons_set();
+}
+
 bind_key("alt-s", () => { Save.download(); });
 
 for (let i = 1; i <= EffectEngineRunner.multipliers.length; i += 1) {

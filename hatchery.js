@@ -29,3 +29,41 @@ function add_to_hatchery(pokemons) {
 }
 
 bind_key("alt-b", () => { hatch_eggs(); breed(); });
+
+const breeding_pokemons = new Set();
+function create_breeding_pokemons_set() {
+    for (const egg of App.game.breeding.eggList) {
+        breeding_pokemons.add(egg().pokemon);
+    }
+}
+
+const original_party_calculate_one_pokemon_attack = Party.prototype.calculateOnePokemonAttack;
+Party.prototype.calculateOnePokemonAttack = function(pokemon, type1, type2, region, ignoreRegionMultiplier, includeBreeding, useBaseAttack, includeWeather) {
+    if (!breeding_pokemons.has(pokemon.name)) {
+        includeBreeding = true;
+    }
+
+    return original_party_calculate_one_pokemon_attack.call(this, pokemon, type1, type2, region, ignoreRegionMultiplier, includeBreeding, useBaseAttack, includeWeather);
+}
+
+const original_breeding_gain_egg = Breeding.prototype.gainEgg;
+Breeding.prototype.gainEgg = function(egg) {
+    const is_gained = original_breeding_gain_egg.call(this, ...arguments);
+
+    if (is_gained) {
+        breeding_pokemons.add(egg.pokemon);
+    }
+
+    return is_gained;
+}
+
+const original_egg_hatch = Egg.prototype.hatch;
+Egg.prototype.hatch = function() {
+    const is_hatched = original_egg_hatch.call(this, ...arguments);
+
+    if (is_hatched) {
+        breeding_pokemons.delete(this.pokemon);
+    }
+
+    return is_hatched;
+}
