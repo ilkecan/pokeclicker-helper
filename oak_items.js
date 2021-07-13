@@ -6,7 +6,7 @@ OakItemLoadouts.prototype.fromJSON = function(json) {
         this.loadouts.push(ko.observableArray());
     }
 
-    original_oak_items_from_json.call(this, json);
+    original_oak_items_from_json.call(this, ...arguments);
 }
 
 for (let i = 1; i <= NUMBER_OF_OAK_ITEM_LOADOUTS; i += 1) {

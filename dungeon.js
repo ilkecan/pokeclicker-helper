@@ -57,7 +57,7 @@ function init_dungeon_solver() {
 
 const original_defeat_pokemon = DungeonBattle.defeatPokemon;
 DungeonBattle.defeatPokemon = function() {
-    original_defeat_pokemon.call(this);
+    original_defeat_pokemon.call(this, ...arguments);
 
     if (dungeon_solver !== null) {
         setTimeout(dungeon_solver.run.bind(dungeon_solver), DUNGEON_SOLVER_ACTION_INTERVAL);
@@ -66,7 +66,7 @@ DungeonBattle.defeatPokemon = function() {
 
 const original_defeat_trainer_pokemon = DungeonBattle.defeatTrainerPokemon;
 DungeonBattle.defeatTrainerPokemon = function() {
-    original_defeat_trainer_pokemon.call(this);
+    original_defeat_trainer_pokemon.call(this, ...arguments);
 
     if (!DungeonRunner.fighting() && dungeon_solver !== null) {
         setTimeout(dungeon_solver.run.bind(dungeon_solver), DUNGEON_SOLVER_ACTION_INTERVAL);
@@ -75,7 +75,7 @@ DungeonBattle.defeatTrainerPokemon = function() {
 
 const original_move_to_tile = DungeonMap.prototype.moveToTile;
 DungeonMap.prototype.moveToTile = function(point) {
-    const return_value = original_move_to_tile.call(this, point);
+    const return_value = original_move_to_tile.call(this, ...arguments);
 
     if (dungeon_solver !== null) {
         setTimeout(dungeon_solver.run.bind(dungeon_solver), DUNGEON_SOLVER_ACTION_INTERVAL);
@@ -86,7 +86,7 @@ DungeonMap.prototype.moveToTile = function(point) {
 
 const original_show_chest_tiles = DungeonMap.prototype.showChestTiles;
 DungeonMap.prototype.showChestTiles = function() {
-    original_show_chest_tiles.call(this);
+    original_show_chest_tiles.call(this, ...arguments);
 
     if (dungeon_solver !== null) {
         dungeon_solver.dungeon_visibility = DUNGEON_VISIBILITY.CHESTS_VISIBLE;
@@ -95,7 +95,7 @@ DungeonMap.prototype.showChestTiles = function() {
 
 const original_show_all_tiles = DungeonMap.prototype.showAllTiles;
 DungeonMap.prototype.showAllTiles = function() {
-    original_show_all_tiles.call(this);
+    original_show_all_tiles.call(this, ...arguments);
 
     if (dungeon_solver !== null) {
         dungeon_solver.dungeon_visibility = DUNGEON_VISIBILITY.ALL_VISIBLE;
@@ -105,14 +105,14 @@ DungeonMap.prototype.showAllTiles = function() {
 
 const original_dungeon_won = DungeonRunner.dungeonWon;
 DungeonRunner.dungeonWon = function() {
-    original_dungeon_won.call(this)
+    original_dungeon_won.call(this, ...arguments)
     dungeon_solver = null;
     setTimeout(enter_dungeon, ENTER_DUNGEON_INTERVAL, DungeonRunner.dungeon);
 }
 
 const original_dungeon_lost = DungeonRunner.dungeonLost;
 DungeonRunner.dungeonLost = function() {
-    original_dungeon_lost.call(this)
+    original_dungeon_lost.call(this, ...arguments)
     dungeon_solver = null;
     continue_entering_dungeon = false;
 }

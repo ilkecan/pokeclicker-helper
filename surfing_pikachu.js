@@ -4,7 +4,7 @@ PokemonFactory.generateRoamingEncounter = function(route, region) {
         return "Surfing Pikachu";
     }
 
-    return original_generate_roaming_encounter.call(this, route, region);
+    return original_generate_roaming_encounter.call(this, ...arguments);
 }
 
 function generate_surfing_pikachu(route, region) {

@@ -16,7 +16,7 @@ GameController.focusedOnEditableElement = function() {
         return true;
     }
 
-    return original_focused_on_editable_element.call(this);
+    return original_focused_on_editable_element.call(this, ...arguments);
 }
 
 DailyDeal.prototype.get_profit = function() {

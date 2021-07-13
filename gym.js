@@ -110,13 +110,13 @@ function start_gym_battle(gym) {
 
 const original_gym_won = GymRunner.gymWon;
 GymRunner.gymWon = function(gym) {
-    original_gym_won.call(this, gym);
+    original_gym_won.call(this, ...arguments);
     setTimeout(start_gym_battle, GYM_BATTLE_INTERVAL, gym);
 }
 
 const original_gym_lost = GymRunner.gymLost;
 GymRunner.gymLost = function(gym) {
-    original_gym_lost.call(this, gym);
+    original_gym_lost.call(this, ...arguments);
     continue_gym_battle = false;
 }
 

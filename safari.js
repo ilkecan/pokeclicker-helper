@@ -117,7 +117,7 @@ function init_safari_runner() {
 
 const original_safari_battle_load = SafariBattle.load;
 SafariBattle.load = function(enemy) {
-    original_safari_battle_load.call(this, enemy);
+    original_safari_battle_load.call(this, ...arguments);
 
     if (safari_runner !== null) {
         safari_runner.state = SAFARI_STATE.SAFARI_BATTLE;
@@ -126,7 +126,7 @@ SafariBattle.load = function(enemy) {
 
 const original_safari_check_battle = Safari.checkBattle;
 Safari.checkBattle = function() {
-    original_safari_check_battle.call(this);
+    original_safari_check_battle.call(this, ...arguments);
 
     if (safari_runner === null) {
         return;
@@ -156,7 +156,7 @@ Safari.checkBattle = function() {
 
 const original_pokemon_grid_push = Safari.pokemonGrid.push;
 Safari.pokemonGrid.push = function(pokemon) {
-    original_pokemon_grid_push.call(this, pokemon);
+    original_pokemon_grid_push.call(this, ...arguments);
 
     if (safari_runner !== null) {
         safari_runner.roaming_pokemons.add(pokemon);
@@ -165,7 +165,7 @@ Safari.pokemonGrid.push = function(pokemon) {
 
 const original_safari_battle_unlock_buttons = SafariBattle.unlockButtons;
 SafariBattle.unlockButtons = function() {
-    original_safari_battle_unlock_buttons.call(this);
+    original_safari_battle_unlock_buttons.call(this, ...arguments);
 
     if (safari_runner !== null && Safari.inBattle()) {
         setTimeout(safari_runner.run.bind(safari_runner), SAFARI_RUNNER_INTERVAL);
@@ -174,7 +174,7 @@ SafariBattle.unlockButtons = function() {
 
 const original_safari_battle_game_over = SafariBattle.gameOver;
 SafariBattle.gameOver = function() {
-    original_safari_battle_game_over.call(this);
+    original_safari_battle_game_over.call(this, ...arguments);
     safari_runner = null;
 };
 

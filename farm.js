@@ -1,6 +1,6 @@
 const original_farming_shovel = Farming.prototype.shovel;
 Farming.prototype.shovel = function(index) {
-    original_farming_shovel.call(this, index);
+    original_farming_shovel.call(this, ...arguments);
     GameHelper.incrementObservable(this.shovelAmt, 1);
 }
 
