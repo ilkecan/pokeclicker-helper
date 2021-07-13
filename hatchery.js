@@ -28,7 +28,26 @@ function add_to_hatchery(pokemons) {
     }
 }
 
-bind_key("alt-b", () => { hatch_eggs(); breed(); });
+function empty_hatchery_queue() {
+    for (const pokemon_name of App.game.breeding.queueList.splice(0)) {
+        pokemon_name_map.get(pokemon_name).breeding = false;
+    }
+}
+
+const pokemon_name_map = new Map();
+function create_pokemon_name_map() {
+    for (const pokemon of App.game.party.caughtPokemon) {
+        pokemon_name_map.set(pokemon.name, pokemon);
+    }
+
+    App.game.party._caughtPokemon.subscribe((changes) => {
+        for (const { status, value: pokemon } of changes) {
+            if (status === "added" && !pokemon_name_map.has(pokemon.name)) {
+                pokemon_name_map.set(pokemon.name, pokemon);
+            }
+        }
+    }, null, "arrayChange");
+}
 
 const breeding_pokemons = new Set();
 function create_breeding_pokemons_set() {
@@ -67,3 +86,5 @@ Egg.prototype.hatch = function() {
 
     return is_hatched;
 }
+
+bind_key("alt-b", () => { empty_hatchery_queue(); hatch_eggs(); breed(); });

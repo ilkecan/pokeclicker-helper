@@ -30,6 +30,7 @@
 const original_game_start = Game.prototype.start;
 Game.prototype.start = function() {
     original_game_start.call(this, ...arguments);
+    create_pokemon_name_map();
     create_breeding_pokemons_set();
 }
 

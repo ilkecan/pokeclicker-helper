@@ -75,13 +75,13 @@ DungeonBattle.defeatTrainerPokemon = function() {
 
 const original_move_to_tile = DungeonMap.prototype.moveToTile;
 DungeonMap.prototype.moveToTile = function(point) {
-    const return_value = original_move_to_tile.call(this, ...arguments);
+    const is_moved = original_move_to_tile.call(this, ...arguments);
 
     if (dungeon_solver !== null) {
         setTimeout(dungeon_solver.run.bind(dungeon_solver), DUNGEON_SOLVER_ACTION_INTERVAL);
     }
 
-    return return_value;
+    return is_moved;
 }
 
 const original_show_chest_tiles = DungeonMap.prototype.showChestTiles;
