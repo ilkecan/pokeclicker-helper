@@ -20,7 +20,7 @@
 // @require     underground.js
 // @grant       none
 // @icon        https://raw.githubusercontent.com/pokeclicker/pokeclicker/develop/src/assets/images/favicon.ico
-// @version     0.7.0
+// @version     0.7.1
 // @author      ilkecan
 // @description key bindings for various things
 // ==/UserScript==
