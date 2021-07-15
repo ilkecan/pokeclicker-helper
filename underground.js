@@ -11,12 +11,12 @@ underground_modal.on('hide.bs.modal', () => { remove_scope('underground'); });
 
 const original_focused_on_editable_element = GameController.focusedOnEditableElement;
 // dirty hack to prevent game's own key bindings for mining energy restores
-GameController.focusedOnEditableElement = function() {
-    if (underground_modal.hasClass("show")) {
+GameController.focusedOnEditableElement = function(called_by_userscript = false) {
+    if (!called_by_userscript && underground_modal.hasClass("show")) {
         return true;
     }
 
-    return original_focused_on_editable_element.call(this, ...arguments);
+    return original_focused_on_editable_element.call(this);
 }
 
 DailyDeal.prototype.get_profit = function() {

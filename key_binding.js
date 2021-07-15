@@ -29,7 +29,7 @@ function remove_scope(name) {
 
 function bind_key(key_combo, callback, scope = "") {
     keymage(scope, key_combo, event => {
-        if (GameController.focusedOnEditableElement()) {
+        if (GameController.focusedOnEditableElement(true)) {
             return;
         }
 
